@@ -9,22 +9,17 @@
   "author": "Patrick Brooks",
   "license": "ISC",
   "dependencies": {
-    "grunt": "^0.4.5",
     "browserify": "^11.0.0",
-    "grunt-browserify": "^3.8.0",
-    "grunt-contrib-jade": "^0.15.0",
-    "jade": "^1.11.0",
-    "jquery": "^2.1.4",
-    "ramda": "^0.17.1",
-    "wu": "^2.0.0",
     "grunt": "~0.4.5",
     "grunt-autoprefixer": "^3.0.0",
+    "grunt-browserify": "^3.8.0",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-htmlmin": "^0.4.0",
     "grunt-contrib-imagemin": "^0.9.4",
+    "grunt-contrib-jade": "^0.15.0",
     "grunt-contrib-jshint": "^0.11.1",
     "grunt-contrib-less": "~0.11.3",
     "grunt-contrib-uglify": "^0.8.0",
@@ -34,6 +29,11 @@
     "grunt-htmllint": "^0.2.7",
     "grunt-newer": "^1.1.0",
     "grunt-notify": "^0.4.1",
-    "load-grunt-tasks": "^3.1.0"
+    "jade": "^1.11.0",
+    "jquery": "^2.1.4",
+    "load-grunt-tasks": "^3.1.0",
+    "lunr": "^0.5.11",
+    "ramda": "^0.17.1",
+    "wu": "^2.0.0"
   }
 }
