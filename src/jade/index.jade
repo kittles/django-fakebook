@@ -1,12 +1,12 @@
 doctype
 html.no-js
   head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no')
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
 
     //title Very Metronome
-    //meta(name='description', content='Very Metronome! A Free Online Metronome -  Perfect for Mobile')
+    //meta(name="description", content="Very Metronome! A Free Online Metronome -  Perfect for Mobile")
 
     //meta(property="og:title" content="Very Metronome")
     //meta(property="og:type" content="website")
@@ -33,10 +33,14 @@ html.no-js
     //meta(name="msapplication-TileImage" content="./fav_icons/ms-icon-144x144.png")
     //meta(name="theme-color" content="#ffffff")
 
-    link(rel='stylesheet', href='style.css')
+    link(rel="stylesheet", href="style.css")
   body
-    #nav
+    #how-to-use
+      p double tap anywhere to open the search and list of songs!
     #song-container
-
-    //script(src='bundle.min.js')
-    script(src='bundle.js')
+    #search.closed
+      #search-container
+        input#search-input
+        #search-results
+      #search-dismiss &#215;
+    script(src="bundle.min.js")

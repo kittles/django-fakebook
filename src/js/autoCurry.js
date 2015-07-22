@@ -30,4 +30,5 @@ module.exports = function () {
     Function.prototype.autoCurry = function (n) {
         return autoCurry(this, n);
     };
+    window.toArray = toArray;
 };

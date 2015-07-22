@@ -29,6 +29,14 @@ module.exports = function (grunt) {
                     "browserify",
                     "uglify:dist"
                 ]
+            },
+            jade: {
+                files: [
+                    "src/jade/index.jade"
+                ],
+                tasks: [
+                    "jade"
+                ]
             }
         },
         less: {
@@ -43,6 +51,20 @@ module.exports = function (grunt) {
                     "src/less/main.less"
                 ],
                 dest: "dist/before.prefix.style.css"
+            }
+        },
+        jade: {
+            compile: {
+                options: {
+                    data: {
+                        debug: false
+                    }
+                },
+                files: {
+                    "dist/index.html": [
+                        "src/jade/index.jade"
+                    ]
+                }
             }
         },
         browserify: {
@@ -110,6 +132,7 @@ module.exports = function (grunt) {
         "less",
         "autoprefixer",
         "cssmin",
+        "jade",
         "browserify",
         "uglify",
         "newer:imagemin",
