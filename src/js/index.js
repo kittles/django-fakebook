@@ -10,5 +10,4 @@ var setAttr = function setAttr (attributeName, el, value) {
     return el;
 }.autoCurry();
 
-
 window.makeImg = setAttr("src")(makeEl("img"));

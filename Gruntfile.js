@@ -10,14 +10,6 @@ module.exports = function (grunt) {
             options: {
                 livereload: true
             },
-            html: {
-                files: [
-                    "src/**/*.html"
-                ],
-                tasks: [
-                    "htmlmin:dist"
-                ]
-            },
             less: {
                 options: {
                     livereload: false
@@ -34,8 +26,7 @@ module.exports = function (grunt) {
                     "src/js/*.js"
                 ],
                 tasks: [
-                    "newer:jshint:all",
-                    "concat:js",
+                    "browserify",
                     "uglify:dist"
                 ]
             }
@@ -49,28 +40,18 @@ module.exports = function (grunt) {
                     sourceMap: true
                 },
                 src: [
-                    "src/less/**/*.less"
+                    "src/less/main.less"
                 ],
-                dest: "src/dist/before.prefix.styles.css"
+                dest: "dist/before.prefix.style.css"
             }
         },
-        jshint: {
-            all: { 
-                src: [
-                    "src/js/**/*.js"
-                ]
-            }
-        },
-        concat: {
-            options: {
-                stripBanners: true,
-                separator: ";\n"
-            },
-            js: {
-                src: [
-                    "src/js/main.js"
-                ],
-                dest: "src/dist/built.js"
+        browserify: {
+            dist: {
+                files: {
+                    "dist/bundle.js": [
+                        "src/js/*.js"
+                    ]
+                }
             }
         },
         uglify: {
@@ -79,8 +60,8 @@ module.exports = function (grunt) {
                 report: "gzip"
             },
             dist: {
-                src: "src/dist/built.js",
-                dest: "public/js/main.min.js"
+                src: "dist/bundle.js",
+                dest: "dist/bundle.min.js"
             }
         },
         cssmin: {
@@ -89,131 +70,50 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    "public/css/styles.min.css": "src/dist/styles.css"
+                    "dist/style.min.css": "dist/style.css"
                 }
             }
         },
-        // If prefixes arent being applied correctly possibly run `npm update caniuse-db`
         autoprefixer: {
             options: {
-                browsers: ["last 2 versions", "ie 10", "ie 11"]
+                browsers: [
+                    "last 2 versions",
+                    "ie 10",
+                    "ie 11"
+                ]
             },
             dist: {
-                src: "src/dist/before.prefix.styles.css",
-                dest: "src/dist/styles.css"
+                src: "dist/before.prefix.style.css",
+                dest: "dist/style.css"
             }
         },
         imagemin: {
             dist: {
-                files: [{
-                    expand: true,
-                    cwd: "src/img/",
-                    src: ["**/*.{png,jpg,jpeg,gif}"],
-                    dest: "public/img/"
-                }]
-            }
-        },
-        // Bigger projects src folder should have an html file
-        htmlmin: {
-            dist: {
-                options: {
-                    removeComments: true,
-                    collapseWhitespace: true,
-                    removeCommentsFromCDATA: true,
-                    collapseBooleanAttributes: true,
-                    removeRedundantAttributes: true,
-                    removeEmptyAttributes: true,
-                    removeOptionalTags: true,
-                    removeScriptTypeAttributes: true,
-                    removeStyleLinkTypeAttributes: true,
-                    caseSensitive: true
-                },
-                expand: true,
-                cwd: "src",
-                src: [
-                    "**/*.html"
-                ],
-                dest: "public/"
-            }
-        },
-        validation: {
-            dist: {
-                expand: true,
-                src: [
-                    "src/**/*.html"
-                ]
-            }
-        },
-        notify: {
-            dist: {
-                options: {
-                    title: "Build Complete",
-                    message: "Success!"
-                }
-            }
-        },
-
-        copy: {
-            dist: {
                 files: [
-                    { 
+                    {
                         expand: true,
-                        cwd: "src",
+                        cwd: "src/img/",
                         src: [
-                            "favicon.ico",
-                            "CNAME"
-                        ], 
-                        dest: "public/",
-                        filter: "isFile" 
-                    },
-                    { 
-                        expand: true, 
-                        cwd: "src", 
-                        src: [
-                            "fonts/**"
+                            "*.{png,jpg,jpeg,gif}"
                         ],
-                        dest: "public/"
+                        dest: "public/img/"
                     }
                 ]
             }
         },
-        // BE CAREFUL WHAT PATHS YOU DECLARE AS IT UNLINKS FILES
         clean: [
             "src/dist"
         ]
     });
 
-    grunt.registerTask("build", [
-        "jshint",
+    grunt.registerTask("default", [
         "less",
         "autoprefixer",
         "cssmin",
-        "concat",
+        "browserify",
         "uglify",
-        "newer:copy",
         "newer:imagemin",
-        "htmlmin",
         "clean",
-        "notify"
-    ]);
-
-    grunt.registerTask("deploy", [
-        "build",
-        "gh-pages"
-    ]);
-    grunt.registerTask("validate", [
-        "validation"
-    ]);
-    grunt.registerTask("default", [
-        "build",
         "watch"
     ]);
-    grunt.registerTask("set_remote", function () {
-        var url = grunt.option("url");
-        if (!url) {
-            throw Error("Need to pass url to set new remote url with command line flag --url");
-        } else {
-            exec("git remote set-url origin " + url);
-        }
-    });
 };
