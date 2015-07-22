@@ -1,5 +1,6 @@
 require("./autoCurry.js")();
 require("./trim.js")();
+require("./docReady.js")();
 var compose = require("./compose.js");
 var songs = require("./songs.js");
 var lunr = require("lunr");
@@ -117,44 +118,48 @@ var makeResult = compose(addSongClickHandler, appendToResults, makeOptEl);
 var toggleSearchOpen = swapClass.bind(null, "open", "closed", search);
 
 // init
-var idx = lunr(function () {
-    this.field("title");
-});
-var results = window.toArray(songNames.map(makeResult));
-songNames.map(function (key) {
-    idx.add({
-        title: key,
-        id: key
+window.docReady(init);
+
+function init () {
+    var idx = lunr(function () {
+        this.field("title");
     });
-});
-
-
-// ui handlers
-addClickHandler(toggleSearchOpen, searchDismiss);
-addClickHandler(function (e) {
-    var oldTap = lastTap;
-    lastTap = new Date();
-    if (lastTap - oldTap < DOUBLE_TAP_MS) {
-        toggleSearchOpen();
-        e.preventDefault();
-    }
-}, songContainer);
-searchInput.addEventListener("input", function () {
-    var candidates = idx.search(this.value).map(prop("ref"));
-    
-    if (this.value.length === 0) {
-        // show the whole list if there's no search term
-        results.map(function (result) {
-            showEl(result);
+    var results = window.toArray(songNames.map(makeResult));
+    songNames.map(function (key) {
+        idx.add({
+            title: key,
+            id: key
         });
-    } else {
-        // show the songs that show up in the search result
-        results.map(function (result) {
-            if (candidates.indexOf(result.songName) > -1) {
+    });
+
+
+    // ui handlers
+    addClickHandler(toggleSearchOpen, searchDismiss);
+    addClickHandler(function (e) {
+        var oldTap = lastTap;
+        lastTap = new Date();
+        if (lastTap - oldTap < DOUBLE_TAP_MS) {
+            toggleSearchOpen();
+            e.preventDefault();
+        }
+    }, songContainer);
+    searchInput.addEventListener("input", function () {
+        var candidates = idx.search(this.value).map(prop("ref"));
+        
+        if (this.value.length === 0) {
+            // show the whole list if there's no search term
+            results.map(function (result) {
                 showEl(result);
-            } else {
-                hideEl(result);
-            }
-        });
-    }
-});
+            });
+        } else {
+            // show the songs that show up in the search result
+            results.map(function (result) {
+                if (candidates.indexOf(result.songName) > -1) {
+                    showEl(result);
+                } else {
+                    hideEl(result);
+                }
+            });
+        }
+    });
+}
