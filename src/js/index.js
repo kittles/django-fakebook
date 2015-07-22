@@ -11,6 +11,8 @@ var CLICK_EVENTS = [
     "touchend"
 ];
 var DOUBLE_TAP_MS = 200;
+var SONG_IMG_BASEPATH = "/public/img/fakebook-";
+var SONG_IMG_FILETYPE = ".png";
 
 // for double tap
 var lastTap = -1000;
@@ -43,7 +45,7 @@ var makeImg = function makeImg (src) {
     return img;
 };
 var makeSrc = function makeSrc (number) {
-    return "/public/img/fakebook-" + number + ".png";
+    return SONG_IMG_BASEPATH + number + SONG_IMG_FILETYPE;
 };
 var appendEl = function appendEl (parent, child) {
     parent.appendChild(child);
@@ -131,7 +133,6 @@ function init () {
             id: key
         });
     });
-
 
     // ui handlers
     addClickHandler(toggleSearchOpen, searchDismiss);
