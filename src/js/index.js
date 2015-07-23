@@ -114,6 +114,7 @@ var addSongClickHandler = addClickHandler(function () {
     if (!dragging) {
         clearSongContainer();
         songs[this.songName].map(addPage);
+        toggleSearchOpen();
     }
 });
 var makeResult = compose(addSongClickHandler, appendToResults, makeOptEl);
@@ -123,6 +124,7 @@ var toggleSearchOpen = swapClass.bind(null, "open", "closed", search);
 window.docReady(init);
 
 function init () {
+    lunr.stopWordFilter.stopWords.elements = []; // remove stopwords so single letters have results
     var idx = lunr(function () {
         this.field("title");
     });
