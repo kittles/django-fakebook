@@ -14,9 +14,6 @@ var DOUBLE_TAP_MS = 200;
 var SONG_IMG_BASEPATH = "/public/img/fakebook-";
 var SONG_IMG_FILETYPE = ".png";
 
-// for double tap
-var lastTap = -1000;
-
 // make sure dragged touches don't fire click events
 var dragging = false;
 document.body.addEventListener("touchstart", function () {
@@ -25,6 +22,10 @@ document.body.addEventListener("touchstart", function () {
 document.body.addEventListener("touchmove", function () {
     dragging = true;
 });
+
+// for double tap
+var lastTap = -1000;
+
 
 // dom node references
 var search = document.getElementById("search");
